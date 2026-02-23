@@ -1,21 +1,28 @@
-name: Intentional Fail CI
+name: CI + CD Example
 
 on:
   push:
     branches: ["main"]
 
 jobs:
-  fail-test:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - run: npm install
+      - run: npm test
+
+  cd:
+    needs: ci   # ⬅️ PENTING
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
-
-      - name: Step sukses dulu
-        run: echo "step ini aman 👍"
-
-      - name: FAIL SENGAJA
+      - name: Fake Deploy
         run: |
-          echo "🔥 ini sengaja gagal"
-          exit 1
+          echo "🚀 Deploying app..."
+          echo "App deployed!"
