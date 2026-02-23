@@ -1,25 +1,21 @@
-name: Dummy CI
+name: Intentional Fail CI
 
 on:
   push:
     branches: ["main"]
-  pull_request:
 
 jobs:
-  test:
+  fail-test:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 18
+      - name: Step sukses dulu
+        run: echo "step ini aman 👍"
 
-      - name: Install dependencies
-        run: npm install
-
-      - name: Run tests
-        run: npm test
+      - name: FAIL SENGAJA
+        run: |
+          echo "🔥 ini sengaja gagal"
+          exit 1
